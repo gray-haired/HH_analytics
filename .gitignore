@@ -1,0 +1,22 @@
+# Данные
+data/
+*.json
+*.csv
+*.parquet
+
+# Логи
+*.log
+logs/
+
+# Виртуальное окружение
+.venv/
+venv/
+.env
+.env.local
+.env.local.py
+
+# IDE
+.vscode/
+.idea/
+__pycache__/
+*.pyc
