@@ -1,0 +1,3 @@
+env:
+  HH_USER_AGENT_EMAIL: ${{ secrets.HH_USER_AGENT_EMAIL }}
+  HH_USER_AGENT_NAME: ${{ secrets.HH_USER_AGENT_NAME }}

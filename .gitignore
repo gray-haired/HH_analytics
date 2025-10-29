@@ -12,6 +12,8 @@ logs/
 .venv/
 venv/
 .env
+.env.*
+*.env
 .env.local
 .env.local.py
 
