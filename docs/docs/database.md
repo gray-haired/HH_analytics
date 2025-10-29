@@ -19,6 +19,7 @@
 
 ## SQL для создания таблицы
 
+```
 CREATE TABLE vacancies
 (
     id String,
@@ -38,6 +39,7 @@ ENGINE = MergeTree()
 PRIMARY KEY (created_date, area_name, experience)
 ORDER BY (created_date, area_name, experience, id)
 PARTITION BY toYYYYMM(created_date);
+```
 
 ## Структура индексов
 
