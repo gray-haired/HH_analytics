@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 from .clickhouse_client import get_clickhouse_client
+from .cleanup import cleanup_old_data, get_database_stats, optimize_table
 
 
 def prepare_vacancy_data(vacancy):
@@ -67,6 +68,33 @@ def insert_vacancies_to_clickhouse(vacancies):
         import traceback
         traceback.print_exc()
         return False
+
+
+def insert_vacancies_with_cleanup(vacancies, days_to_keep=90):
+    """Загружает данные и очищает старые записи"""
+    
+    success = insert_vacancies_to_clickhouse(vacancies)
+    
+    if success:
+        print("\n" + "="*50)
+        print("УПРАВЛЕНИЕ ДАННЫМИ")
+        print("="*50)
+        
+        # Показываем статистику до очистки
+        print("ДО очистки:")
+        get_database_stats()
+        
+        # Очищаем старые данные
+        cleanup_old_data(days_to_keep=days_to_keep)
+        
+        # Показываем статистику после очистки
+        print(f"\n ПОСЛЕ очистки:")
+        get_database_stats()
+        
+        # Оптимизируем таблицу
+        optimize_table()
+    
+    return success
 
 
 def test_simple_insert():
