@@ -82,7 +82,7 @@ def parse_vacancies(search_queries, max_vacancies: int = 100):
     all_processed_vacancies = []
     
     for query in search_queries:
-        print(f"\n Поиск: '{query}'")
+        print(f"\nПоиск: '{query}'")
         print("=" * 40)
         
         vacancies_list = fetch_vacancies_list(query)
@@ -93,11 +93,21 @@ def parse_vacancies(search_queries, max_vacancies: int = 100):
             details = fetch_vacancy_details(vacancy['id'])
             
             if details:
+                # исправление: приоритет salary_range -> salary
+                salary_data = details.get('salary') or {}
+                salary_range_data = details.get('salary_range') or {}
+                
+                salary_from = salary_range_data.get('from') or salary_data.get('from')
+                salary_to = salary_range_data.get('to') or salary_data.get('to')
+                salary_currency = salary_range_data.get('currency') or salary_data.get('currency', '')
+
                 # Обрабатываем данные
                 processed = {
                     'id': details.get('id'),
                     'name': details.get('name'),
-                    'salary': details.get('salary'),
+                    'salary_from': salary_from,
+                    'salary_to': salary_to,
+                    'salary_currency': salary_currency,
                     'employer': details.get('employer', {}).get('name'),
                     'area': details.get('area', {}).get('name'),
                     'experience': details.get('experience', {}).get('name'),
@@ -106,8 +116,13 @@ def parse_vacancies(search_queries, max_vacancies: int = 100):
                     'query': query
                 }
                 all_processed_vacancies.append(processed)
-                print(f"Навыков: {len(processed['key_skills'])}")
+                
+                # Логируем зарплату если есть
+                if salary_from or salary_to:
+                    print(f"Зарплата: {salary_from or '?'}-{salary_to or '?'} {salary_currency}")
+                else:
+                    print(f"Навыков: {len(processed['key_skills'])}")
     
-    print(f"\n ИТОГО обработано: {len(all_processed_vacancies)} вакансий")
+    print(f"\nИТОГО обработано: {len(all_processed_vacancies)} вакансий")
     return all_processed_vacancies
     

@@ -24,20 +24,24 @@ def prepare_vacancy_data(vacancy):
     # created_date автоматически вычисляется из published_at
     created_date = published_at.date()
     
-    # 12 столбцов
+     # 15 столбцов с новыми полями
     return [
         vacancy.get('id', ''),                     # id
         vacancy.get('name', ''),                   # name
-        salary.get('from'),                        # salary_from
-        salary.get('to'),                          # salary_to
-        salary.get('currency', ''),                # salary_currency
+        vacancy.get('salary_from'),                # salary_from
+        vacancy.get('salary_to'),                  # salary_to  
+        vacancy.get('salary_currency', ''),        # salary_currency
         vacancy.get('employer', ''),               # employer_name
         vacancy.get('area', ''),                   # area_name
         vacancy.get('experience', ''),             # experience
         vacancy.get('key_skills', []),             # key_skills
         vacancy.get('query', ''),                  # search_query
         published_at,                              # published_at
-        created_date                               # created_date
+        created_date,                              # created_date
+        # исправление - новые поля
+        vacancy.get('employment', ''),             # employment
+        vacancy.get('schedule', ''),               # schedule
+        vacancy.get('professional_roles', [])      # professional_roles
     ]
 
 
@@ -64,7 +68,7 @@ def insert_vacancies_to_clickhouse(vacancies):
         return True
         
     except Exception as e:
-        print(f"❌ Ошибка загрузки в ClickHouse: {e}")
+        print(f"Ошибка загрузки в ClickHouse: {e}")
         import traceback
         traceback.print_exc()
         return False
@@ -105,7 +109,7 @@ def test_simple_insert():
         
         now = datetime.now()
         
-        # 12 столбцов - как в таблице
+         # 15 столбцов - как в обновленной таблице
         test_data = [[
             'test_001',                    # id
             'Test Vacancy',                # name
@@ -118,7 +122,10 @@ def test_simple_insert():
             ['Python', 'SQL'],             # key_skills
             'Test',                        # search_query
             now,                           # published_at
-            now.date()                     # created_date
+            now.date(),                    # created_date
+            'Полная занятость',            # employment (новое)
+            'Полный день',                 # schedule (новое)
+            ['Программист']                # professional_roles (новое)
         ]]
         
         client.insert(table='vacancies', data=test_data)
