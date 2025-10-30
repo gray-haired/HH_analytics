@@ -53,3 +53,18 @@ PARTITION BY toYYYYMM(created_date);
 - Тренды по времени
 - Географическое распределение  
 - Статистика по опыту работы
+
+## История изменений
+
+### Версия 1.1 (2024-01-XX)
+**Добавлены новые поля:**
+- `employment` (String) - тип занятости
+- `schedule` (String) - график работы  
+- `professional_roles` (Array(String)) - профессиональные роли
+
+**SQL для обновления:**
+```sql
+ALTER TABLE vacancies 
+ADD COLUMN employment String,
+ADD COLUMN schedule String,
+ADD COLUMN professional_roles Array(String);
