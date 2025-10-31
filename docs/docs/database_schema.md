@@ -56,7 +56,7 @@ PARTITION BY toYYYYMM(created_date);
 
 ## История изменений
 
-### Версия 1.1 (2024-01-XX)
+### Версия 1.1 (2025-10-29)
 **Добавлены новые поля:**
 - `employment` (String) - тип занятости
 - `schedule` (String) - график работы  
@@ -68,3 +68,24 @@ ALTER TABLE vacancies
 ADD COLUMN employment String,
 ADD COLUMN schedule String,
 ADD COLUMN professional_roles Array(String);
+```
+
+### Версия 1.2 (2025-10-31) - Дедупликация
+**Решена проблема дубликатов:**
+- Таблица пересоздана с движком `ReplacingMergeTree(published_at)`
+- Данные автоматически дедуплицируются по полю `id`
+- Добавлена логика дедупликации на стороне приложения
+
+**SQL миграция:**
+```sql
+-- Создание таблицы с дедупликацией
+CREATE TABLE vacancies (...) ENGINE = ReplacingMergeTree(published_at)...;
+
+-- Перенос данных с оконными функциями
+INSERT INTO new_table 
+SELECT * FROM (
+    SELECT *, ROW_NUMBER() OVER (PARTITION BY id ORDER BY published_at DESC) as rn
+    FROM old_table
+) WHERE rn = 1;
+```
+Примечание: ReplacingMergeTree выполняет дедупликацию фоново, для немедленной дедупликации используйте OPTIMIZE TABLE FINAL DEDUPLICATE.

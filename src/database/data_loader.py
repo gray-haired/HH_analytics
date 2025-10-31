@@ -55,6 +55,21 @@ def insert_vacancies_to_clickhouse(vacancies):
     try:
         print("Подключаемся к ClickHouse...")
         client = get_clickhouse_client()
+
+        # Дедупликация на стороне приложения (дополнительная защита)
+        unique_vacancies = {}
+        for vac in vacancies:
+            vac_id = vac.get('id')
+            if vac_id in unique_vacancies:
+                # Оставляем вакансию с более поздней датой публикации
+                existing = unique_vacancies[vac_id]
+                if vac.get('published_at', '') > existing.get('published_at', ''):
+                    unique_vacancies[vac_id] = vac
+            else:
+                unique_vacancies[vac_id] = vac
+        
+        deduped_vacancies = list(unique_vacancies.values())
+        print(f"После дедупликации: {len(deduped_vacancies)} из {len(vacancies)} вакансий")
         
         # Подготавливаем данные
         print(f"Подготавливаем {len(vacancies)} вакансий...")
@@ -63,6 +78,9 @@ def insert_vacancies_to_clickhouse(vacancies):
         # Выполняем вставку
         print("Загружаем данные в ClickHouse...")
         client.insert(table='vacancies', data=prepared_data)
+
+        # Принудительно сливаем данные для немедленной дедупликации
+        client.command("OPTIMIZE TABLE vacancies FINAL DEDUPLICATE")
         
         print(f"Успешно загружено {len(vacancies)} вакансий в ClickHouse")
         return True
