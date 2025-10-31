@@ -69,9 +69,9 @@ python scripts/test_full_pipeline.py
 - Задокументируйте изменения в docs/database_schema.md
 
 ### Версии
-v1.2: Дедупликация через ReplacingMergeTree
-v1.1: Добавлены поля employment, schedule, professional_roles
-v1.0: Первоначальная структура с 12 полями
+- v1.2: Дедупликация через ReplacingMergeTree
+- v1.1: Добавлены поля employment, schedule, professional_roles
+- v1.0: Первоначальная структура с 12 полями
 
 ## Автоматизация
 
