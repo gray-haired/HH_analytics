@@ -14,15 +14,28 @@ def get_clickhouse_client():
     password = os.getenv('CLICKHOUSE_PASSWORD')
     database = os.getenv('CLICKHOUSE_DB')
     
-    if not all([host, user, password]):
-        raise ValueError("Не установлены переменные окружения для ClickHouse")
+    # проверка, что все необходимые переменные установлены
+    missing_vars  = []
+    if not host: missing_vars.append('CLICKHOUSE_HOST')
+    if not user: missing_vars .append('CLICKHOUSE_USER')
+    if not password: missing_vars .append('CLICKHOUSE_PASSWORD')
+    if not database: missing_vars .append('CLICKHOUSE_DB')
     
-    client = clickhouse_connect.get_client(
-        host=host,
-        user=user,
-        password=password,
-        database=database,
-        secure=True
-    )
-    return client
-
+    if missing_vars:
+        error_msg = f"Не установлены переменные окружения: {', '.join(missing_vars)}"
+        print(f"{error_msg}")
+        raise ValueError(error_msg)
+    
+    try:    
+        client = clickhouse_connect.get_client(
+            host=host,
+            user=user,
+            password=password,
+            database=database,
+            secure=True
+        )
+        return client
+    
+    except Exception as e:
+        print(f"Ошибка подключения к ClickHouse: {e}")
+        raise
