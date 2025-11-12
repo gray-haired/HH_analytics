@@ -1,6 +1,6 @@
 # Данные
 data/
-*.json
+
 *.csv
 *.parquet
 

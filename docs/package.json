@@ -1,0 +1,11 @@
+{
+  "name": "mkdocs-vercel",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "mkdocs build --site-dir site"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18"
+  }
+}
