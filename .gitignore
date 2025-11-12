@@ -21,3 +21,7 @@ venv/
 .idea/
 __pycache__/
 *.pyc
+
+# streamlit
+.streamlit/secrets.toml
+secrets.toml
