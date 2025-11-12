@@ -1,0 +1,48 @@
+site_name: HH Analytics
+site_description: система мониторинга IT-вакансий
+site_url: https://your-site.vercel.app
+
+repo_name: gray-haired/HH_analytics
+repo_url: https://github.com/gray-haired/HH_analytics.git
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - toc.integrate
+    - navigation.top
+    - search.suggest
+    - search.highlight
+  palette:
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: dark
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+plugins:
+  - search
+
+nav:
+  - Главная: index.md
+  - Архитектура: architecture.md
+  - Технологии: technology-stack.md
+  - База данных: database-schema.md
+  - Деплой: deployment.md
+  - Схема данных: data-schema.md 
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true
+  - tables
+  - markdown.extensions.attr_list
