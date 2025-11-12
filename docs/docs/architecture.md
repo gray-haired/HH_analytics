@@ -19,10 +19,10 @@ graph TD
 ### Компоненты системы
 
 1. Data Collection Layer
-- Источник: HH.ru REST API
-- Протокол: HTTPS с аутентификацией
-- Лимиты: 2,000 запросов/день, задержка 0.3с
-- Формат данных: JSON с nested структурами
+   - Источник: HH.ru REST API
+   - Протокол: HTTPS с аутентификацией
+   - Лимиты: 2,000 запросов/день, задержка 0.3с
+   - Формат данных: JSON с nested структурами
 
 2. ETL Processing Layer
 ```python
@@ -51,16 +51,16 @@ PARTITION BY toYYYYMM(created_date)
 ORDER BY (id, created_date)
 ```
 
-Преимущества ClickHouse:
+### Преимущества ClickHouse:
 
 - Высокая производительность аналитических запросов
 - Эффективное сжатие колоночных данных
 - Встроенная дедупликация через ReplacingMergeTree
 - Полностью managed облачное решение
 
-4. Visualization Layer
+### Visualization Layer:
 
-- Streamlit дашборд включает:
+Streamlit дашборд включает:
 - Real-time подключение к ClickHouse
 - Интерактивные фильтры (город, опыт, период)
 - Недельные агрегаты для стабильных трендов

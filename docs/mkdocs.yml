@@ -34,7 +34,6 @@ plugins:
 nav:
   - Главная: index.md
   - Архитектура: architecture.md
-  - Технологии: technology-stack.md
   - База данных: database-schema.md
   - Деплой: deployment.md
   - Схема данных: data-schema.md 
