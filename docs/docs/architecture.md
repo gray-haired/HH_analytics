@@ -65,6 +65,7 @@ ORDER BY (id, created_date)
 ### Visualization Layer:
 
 Streamlit дашборд включает:
+
 - Real-time подключение к ClickHouse
 - Интерактивные фильтры (город, опыт, период)
 - Недельные агрегаты для стабильных трендов

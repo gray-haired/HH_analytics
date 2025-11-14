@@ -14,6 +14,8 @@ theme:
     - navigation.top
     - search.suggest
     - search.highlight
+    - content.code.copy
+    - content.tabs.link
   palette:
     - scheme: default
       primary: blue
@@ -30,11 +32,12 @@ theme:
 
 plugins:
   - search
+  - mermaid2
 
 nav:
   - Главная: index.md
   - Архитектура: architecture.md
-  - База данных: database-schema.md
+  - База данных: database_schema.md
   - Деплой: deployment.md
   - Схема данных: data-schema.md 
 
@@ -45,3 +48,14 @@ markdown_extensions:
       permalink: true
   - tables
   - markdown.extensions.attr_list
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:mermaid2.fence_mermaid_custom
+
+extra_javascript:
+  - https://unpkg.com/mermaid@10/dist/mermaid.min.js
+
+extra_css: 
+  - https://unpkg.com/mermaid@10/dist/mermaid.css
