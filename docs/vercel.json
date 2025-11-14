@@ -1,12 +1,5 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "**/*.md",
-      "use": "@vercel/static-build"
-    }
-  ],
   "buildCommand": "pip install -r requirements.txt && mkdocs build --site-dir public",
   "outputDirectory": "public",
-  "installCommand": "python -m pip install --upgrade pip"
 }
